@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.btn {
+		@apply text-white px-4 py-2 rounded;
+	}
+
+	.btn:focus {
+		@apply outline-none shadow-outline;
+	}
+
+	.btn-sm {
+		@apply px-2 py-1;
+	}
+
+	.btn-blue {
+		@apply bg-blue-500;
+	}
+
+	.btn-blue:hover {
+		@apply bg-blue-700;	
+	}
+
+	.btn-red {
+		@apply bg-red-500;
+	}
+
+	.btn-red:hover {
+		@apply bg-red-700;
+	}
+
+	.btn-secondary {
+		@apply bg-gray-600;
+	}
+
+	.btn-secondary:hover {
+		@apply bg-gray-700;
+	}
+
+	.form-label {
+		@apply block text-gray-700 text-sm font-bold mb-2;
+	}
+
+	.form-input {
+		@apply block border border-gray-300 rounded-lg py-2 px-4 w-full;
+	}
+
+	.form-input:focus {
+		@apply outline-none shadow-outline;
+	}
+
+	.error {
+		@apply text-red-500 text-sm mt-2;
+	}
+}
+
+.router-view-enter-active, .router-view-leave-active {
+	transition: opacity .5s;
+}
+
+.router-view-enter, .router-view-leave-to {
+	opacity: 0;
+}
