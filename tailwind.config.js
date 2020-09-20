@@ -7,8 +7,12 @@ module.exports = {
   theme: {
     extend: {
       inset: {
-        "5": "1.25rem"
+        "5": "1.25rem",
+        "8": "2rem"
       },
+      colors: {
+        star: "#ffc107"
+      }
     },
   },
   variants: {

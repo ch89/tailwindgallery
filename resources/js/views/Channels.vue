@@ -1,10 +1,21 @@
 <template>
 	<div>
-		<table class="shadow-md rounded overflow-hidden w-full mb-4">
+		<table class="shadow rounded overflow-hidden w-full mb-4">
 			<thead>
 				<tr class="bg-gray-800 text-white text-left">
-					<th class="p-4">Name</th>
-					<th class="p-4">Color</th>
+					<!-- <th class="p-4">
+						<a href="#" @click.prevent="sort('name')">Name</a>
+						<i class="fas ml-2" :class="direction == 1 ? 'fa-angle-up' : 'fa-angle-down'" v-show="key == 'name'"></i>
+					</th>
+					<th class="p-4">
+						<a href="#" @click.prevent="sort('color')">Color</a>
+						<i class="fas ml-2" :class="direction == 1 ? 'fa-angle-up' : 'fa-angle-down'" v-show="key == 'color'"></i>
+					</th> -->
+
+					<th class="p-4" v-for="key in keys">
+						<a href="#" @click.prevent="sort(key)" v-text="capitalize(key)"></a>
+						<i class="fas ml-2" :class="direction == 1 ? 'fa-angle-up' : 'fa-angle-down'" v-show="$data.key == key"></i>
+					</th>
 					<th class="p-4">Actions</th>
 				</tr>
 			</thead>
@@ -21,7 +32,7 @@
 						<button class="btn btn-red btn-sm" @click="close">Close</button>
 					</td>
 				</tr>
-				<tr v-for="channel in channels" v-if="$data.channel == channel" class="bg-white even:bg-gray-100">
+				<tr v-for="channel in orderedChannels" v-if="$data.channel == channel" class="bg-white even:bg-gray-100">
 					<td class="p-4">
 						<input type="text" class="form-input" v-model="form.edit.name">
 					</td>
@@ -114,24 +125,39 @@
 				channel: null,
 				show: false,
 				form: {
-					create: {},
+					create: { color: "#000000" },
 					edit: {}
-				}
+				},
+				key: "",
+				direction: 1,
+				keys: ["name", "color"]
 			}
 		},
-		computed: mapState("channel", ["channels"]),
+		computed: {
+			...mapState("channel", ["channels"]),
+			orderedChannels() {
+				return this.channels.slice().sort((a, b) => {
+					a = a[this.key]
+					b = b[this.key]
+
+					return (a > b ? 1 : a < b ? -1 : 0) * this.direction
+				})
+			}
+		},
 		methods: {
 			add() {
 				axios.post("/api/channels", this.form.create)
 					.then(response => {
 						this.$store.commit("channel/add", response.data)
 
+						this.$flash.success("Channel created")
+
 						this.close()
 					})
 			},
 			close() {
 				this.show = false
-				this.form.create = {}
+				this.form.create = { color: "#000000" }
 			},
 			edit(channel) {
 				this.channel = channel
@@ -151,7 +177,19 @@
 			},
 			remove(channel) {
 				axios.delete(`/api/channels/${channel.id}`)
-					.then(() => this.$store.commit("channel/remove", channel))
+					.then(() => {
+						this.$store.commit("channel/remove", channel)
+
+						this.$flash.success(`Channel ${channel.name} removed`)
+					})
+			},
+			sort(key) {
+				this.direction = this.key == key ? this.direction * -1 : 1
+
+				this.key = key
+			},
+			capitalize(key) {
+				return key[0].toUpperCase() + key.slice(1)
 			}
 		}
 	}

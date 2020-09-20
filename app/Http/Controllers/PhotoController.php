@@ -79,4 +79,16 @@ class PhotoController extends Controller
     {
         $photo->delete();
     }
+
+    public function like(Photo $photo) {
+        auth()->user()->likes()->toggle($photo);
+    }
+
+    public function rate(Photo $photo) {
+        auth()->user()->ratings()->syncWithoutDetaching([
+            $photo->id => request()->validate([
+                "rating" => "required|integer|between:1,5"
+            ])
+        ]);
+    }
 }

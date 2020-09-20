@@ -22,7 +22,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post("photos/{photo}/like", [PhotoController::class, "like"])->middleware("auth:api");
+Route::post("photos/{photo}/rate", [PhotoController::class, "rate"])->middleware("auth:api");
 Route::resource("photos", PhotoController::class)->middleware("auth:api");
+
 Route::resource("channels", ChannelController::class)->middleware("auth:api");
 
 Route::post("register", [AuthController::class, "register"]);

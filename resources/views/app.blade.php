@@ -64,6 +64,8 @@
 				<router-view></router-view>
 			</transition>
 		</main>
+
+		<flash></flash>
 	</div>
 
 	<script src="/js/app.js"></script>

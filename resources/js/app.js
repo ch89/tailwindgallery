@@ -5,6 +5,7 @@ import store from "./store"
 import "nprogress/nprogress.css"
 import Navbar from "./components/Navbar"
 import Modal from "./components/Modal"
+import Flash from "./components/Flash"
 import { mapState } from "vuex"
 
 window.axios = axios
@@ -13,12 +14,28 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"
 let auth = localStorage.getItem("auth")
 
 if(auth) store.commit("auth/add", JSON.parse(auth))
+	
+Vue.prototype.$flash = {
+	id: 1,
+	message(text, type) {
+		store.dispatch("flash/add", { id: this.id++, text, type })
+	},
+	success(text) {
+		this.message(text, "success")
+	},
+	danger(text) {
+		this.message(text, "danger")
+	},
+	warning(text) {
+		this.message(text, "warning")
+	}
+}
 
 let app = new Vue({
 	el: "#app",
 	router,
 	store,
-	components: { Navbar, Modal },
+	components: { Navbar, Modal, Flash },
 	computed: mapState("channel", ["channels"]),
 	data: {
 		show: false,

@@ -44,6 +44,14 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Photo::class);
     }
 
+    public function likes() {
+        return $this->belongsToMany(Photo::class, "likes");
+    }
+
+    public function ratings() {
+        return $this->belongsToMany(Photo::class, "ratings");
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
