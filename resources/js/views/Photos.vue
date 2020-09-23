@@ -4,7 +4,7 @@
 			<photo v-for="photo in photos.data" :key="photo.id" :photo="photo"></photo>
 		</div>
 
-		<pagination></pagination>
+		<pagination v-if="photos.last_page > 1"></pagination>
 	</div>
 </template>
 
@@ -16,13 +16,13 @@
 
 	export default {
 		components: { Photo, Pagination },
-		computed: mapState(["photos"]),
-		methods: mapActions(["get"]),
+		computed: mapState("photo", ["photos"]),
+		methods: mapActions("photo", ["get"]),
 		// created() {
 		// 	this.get()
 		// }
 		async beforeRouteEnter(to, from, next) {
-			await store.dispatch("get", to.query)
+			await store.dispatch("photo/get", to.query)
 
 			next()
 		},

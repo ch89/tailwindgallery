@@ -15,6 +15,6 @@
 	import { mapState } from "vuex"
 
 	export default {
-		computed: mapState(["photos", "loading"])
+		computed: mapState("photo", ["photos", "loading"])
 	}
 </script>

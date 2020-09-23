@@ -72,7 +72,7 @@
 		</div>
 	</nav> -->
 
-	<nav class="shadow-md sticky">
+	<nav class="shadow-md sticky z-10">
 		<div class="container mx-auto md:flex">
 			<div class="flex justify-between">
 				<a href="#" class="block p-6">
@@ -89,19 +89,23 @@
 						<router-link to="/photos" class="flex items-center p-6 hover:bg-gray-200">Photos</router-link>
 						<a href="#" class="flex items-center p-6 hover:bg-gray-200" @click.prevent="$emit('modal')">Create</a>
 						<router-link to="/channels" class="flex items-center p-6 hover:bg-gray-200">Channels</router-link>
+						<router-link to="/users" class="flex items-center p-6 hover:bg-gray-200">Users</router-link>
 					</template>
 				</div>
 				<div class="md:flex">
-					<div v-if="user" class="relative">
-						<a href="#" @click="dropdown = ! dropdown" class="h-full flex items-center p-6">
-							<img :src="user.avatar" alt="Avatar" class="w-8 h-8 rounded-full">
-							<span class="ml-4 font-semibold">{{ user.name }}</span>
-						</a>
-						<div class="absolute z-50 shadow-md rounded-md overflow-hidden bg-white w-48" :class="dropdown ? 'block' : 'hidden'">
-							<router-link to="/profile" class="block p-6 hover:bg-gray-200">Profile</router-link>
-							<a href="#" class="block p-6 hover:bg-gray-200" @click.prevent="logout">Sign out</a>
+					<template v-if="user">
+						<notifications></notifications>
+						<div class="relative">
+							<a href="#" @click="dropdown = ! dropdown" class="h-full flex items-center p-6">
+								<img :src="user.avatar" alt="Avatar" class="w-8 h-8 rounded-full">
+								<span class="ml-4 font-semibold">{{ user.name }}</span>
+							</a>
+							<div class="absolute shadow-md rounded-md overflow-hidden bg-white w-48" :class="dropdown ? 'block' : 'hidden'">
+								<router-link to="/profile" class="block p-6 hover:bg-gray-200">Profile</router-link>
+								<a href="#" class="block p-6 hover:bg-gray-200" @click.prevent="logout">Sign out</a>
+							</div>
 						</div>
-					</div>
+					</template>
 					<template v-else>
 						<router-link to="/login" class="flex items-center p-6 hover:bg-gray-200">Login</router-link>
 						<router-link to="/register" class="flex items-center p-6 hover:bg-gray-200">Register</router-link>
@@ -114,8 +118,10 @@
 
 <script>
 	import { mapState, mapActions } from "vuex"
+	import Notifications from "./Notifications"
 
 	export default {
+		components: { Notifications },
 		computed: mapState("auth", ["user"]),
 		methods: {
 			// ...mapActions("auth", ["logout"]),

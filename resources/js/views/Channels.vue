@@ -57,7 +57,7 @@
 			</tbody>
 		</table>
 
-		<button class="btn btn-blue" @click="show = ! show">New</button>
+		<button class="btn btn-blue" @click="show = true">New</button>
 	</div>
 </template>
 

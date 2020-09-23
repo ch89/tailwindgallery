@@ -6,6 +6,8 @@ import "nprogress/nprogress.css"
 import Navbar from "./components/Navbar"
 import Modal from "./components/Modal"
 import Flash from "./components/Flash"
+import Comments from "./components/Comments"
+import CommentsModal from "./components/CommentsModal"
 import { mapState } from "vuex"
 
 window.axios = axios
@@ -31,12 +33,19 @@ Vue.prototype.$flash = {
 	}
 }
 
+Array.prototype.remove = function(item) {
+	return this.splice(this.indexOf(item), 1)[0]
+}
+
 let app = new Vue({
 	el: "#app",
 	router,
 	store,
-	components: { Navbar, Modal, Flash },
-	computed: mapState("channel", ["channels"]),
+	components: { Navbar, Modal, Flash, Comments, CommentsModal },
+	computed: {
+		...mapState("channel", ["channels"]),
+		...mapState("photo", ["photo"])
+	},
 	data: {
 		show: false,
 		form: {},
@@ -48,12 +57,12 @@ let app = new Vue({
 	},
 	methods: {
 		add() {
-			this.$store.dispatch("add", this.form)
+			this.$store.dispatch("photo/add", this.form)
 				.then(() => this.close())
 				.catch(errors => this.errors = errors.response.data.errors)
 		},
 		addWithImage(e) {
-			this.$store.dispatch("add", new FormData(e.target))
+			this.$store.dispatch("photo/add", new FormData(e.target))
 				.then(() => this.close())
 				.catch(errors => this.errors = errors.response.data.errors)
 		},

@@ -31,6 +31,14 @@
 		@apply bg-red-700;
 	}
 
+	.btn-green {
+		@apply bg-green-500;
+	}
+
+	.btn-green:hover {
+		@apply bg-green-700;
+	}
+
 	.btn-secondary {
 		@apply bg-gray-600;
 	}
@@ -69,6 +77,12 @@
 
 	.alert-warning {
 		@apply bg-yellow-100 border-yellow-400 text-yellow-700;
+	}
+}
+
+@layer utilities {
+	.scroll-smooth {
+		scroll-behavior: smooth;
 	}
 }
 

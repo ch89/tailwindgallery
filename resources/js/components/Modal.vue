@@ -8,10 +8,8 @@
 						<i class="fas fa-times"></i>
 					</button>
 				</div>
-				<div class="p-6 border-t border-b border-gray-300">
-					<p class="text-gray-600">
-						<slot></slot>
-					</p>
+				<div class="p-6 border-t border-b border-gray-300 max-h-lg overflow-auto">
+					<slot></slot>
 				</div>
 				<div class="p-6 flex justify-end">
 					<slot name="footer"></slot>

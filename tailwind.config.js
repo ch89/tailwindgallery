@@ -12,11 +12,14 @@ module.exports = {
       },
       colors: {
         star: "#ffc107"
+      },
+      maxHeight: {
+        lg: '32rem'
       }
     },
   },
   variants: {
-    backgroundColor: ['responsive', 'even', 'hover', 'focus']
+    backgroundColor: ['responsive', 'odd', 'even', 'hover', 'focus']
   },
   plugins: [],
 }

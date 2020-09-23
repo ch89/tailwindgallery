@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use App\Notifications\PhotoLiked;
+use App\Notifications\PhotoRated;
 use Illuminate\Http\Request;
 
 class PhotoController extends Controller
@@ -23,7 +25,10 @@ class PhotoController extends Controller
             $query->where("channel_id", request("channel_id"));
         }
 
-        return $query->where("user_id", auth()->id())->paginate(request("limit", 2));
+        $user_ids = auth()->user()->following()->pluck("id");
+        $user_ids->push(auth()->id());
+
+        return $query->whereIn("user_id", $user_ids)->paginate(request("limit", 6));
     }
 
     /**
@@ -82,6 +87,8 @@ class PhotoController extends Controller
 
     public function like(Photo $photo) {
         auth()->user()->likes()->toggle($photo);
+
+        $photo->user->notify(new PhotoLiked($photo));
     }
 
     public function rate(Photo $photo) {
@@ -90,5 +97,11 @@ class PhotoController extends Controller
                 "rating" => "required|integer|between:1,5"
             ])
         ]);
+
+        $photo->user->notify(new PhotoRated($photo));
+    }
+
+    public function subscribe(Photo $photo) {
+        return auth()->user()->subscriptions()->toggle($photo);
     }
 }

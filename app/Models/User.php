@@ -40,6 +40,8 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ["followed"];
+
     public function photos() {
         return $this->hasMany(Photo::class);
     }
@@ -50,6 +52,22 @@ class User extends Authenticatable implements JWTSubject
 
     public function ratings() {
         return $this->belongsToMany(Photo::class, "ratings");
+    }
+
+    public function subscriptions() {
+        return $this->belongsToMany(Photo::class, "subscriptions");
+    }
+
+    public function following() {
+        return $this->belongsToMany(static::class, "follows", "follower_id", "followed_id");
+    }
+
+    public function followers() {
+        return $this->belongsToMany(static::class, "follows", "followed_id", "follower_id");
+    }
+
+    public function getFollowedAttribute() {
+        return $this->followers()->where("follower_id", auth()->id())->exists();
     }
 
     public function getJWTIdentifier()

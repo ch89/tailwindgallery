@@ -1,5 +1,5 @@
 <template>
-	<transition-group name="flash" tag="div" class="fixed bottom-8 right-8 z-10">
+	<transition-group name="flash" tag="div" class="fixed bottom-8 right-8 z-50">
 		<div class="alert" :class="`alert-${message.type}`" v-for="message in messages" :key="message.id">
 			<strong class="font-bold">{{ capitalize(message.type) }}!</strong>
 			<span v-text="message.text"></span>

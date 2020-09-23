@@ -23,10 +23,14 @@
 					</a>
 					<span class="text-gray-600 text-sm ml-1">{{ photo.average }} ({{ photo.ratings_count }} reviews)</span>
 				</div>
-
-				<a href="#" class="text-gray-500 hover:text-red-500" :class="{ 'text-red-500': photo.liked }" @click.prevent="like">
-					<i class="fas fa-heart"></i> {{ photo.likes_count }}
-				</a>
+				<div>
+					<a href="#" class="text-gray-500 hover:text-red-500 mr-2" :class="{ 'text-red-500': photo.liked }" @click.prevent="like">
+						<i class="fas fa-heart"></i> {{ photo.likes_count }}
+					</a>
+					<a href="#" class="text-gray-500 hover:text-blue-500" :class="{ 'text-blue-500': photo.subscribed }" @click.prevent="view">
+						<i class="fas fa-comment"></i> {{ photo.comments_count }}
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -38,7 +42,7 @@
 	export default {
 		props: ["photo"],
 		methods: {
-			...mapActions(["remove"]),
+			...mapActions("photo", ["remove"]),
 			async like() {
 				await axios.post(`/api/photos/${this.photo.id}/like`)
 
@@ -49,6 +53,9 @@
 				await axios.post(`/api/photos/${this.photo.id}/rate`, { rating })
 
 				this.photo.rating = rating
+			},
+			view() {
+				this.$store.commit("photo/view", this.photo)
 			}
 		}
 	}

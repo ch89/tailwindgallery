@@ -8,6 +8,7 @@ import Register from "./views/Register"
 import Login from "./views/Login"
 import Profile from "./views/Profile"
 import Channels from "./views/Channels"
+import Users from "./views/Users"
 
 Vue.use(VueRouter)
 
@@ -19,7 +20,8 @@ let router = new VueRouter({
 		{ path: "/register", name: "register", component: Register },
 		{ path: "/login", name: "login", component: Login },
 		{ path: "/profile", name: "profile", component: Profile },
-		{ path: "/channels", name: "channels", component: Channels }
+		{ path: "/channels", name: "channels", component: Channels },
+		{ path: "/users", name: "users", component: Users }
 	]
 })
 

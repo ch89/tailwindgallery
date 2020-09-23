@@ -58,6 +58,10 @@
 
 			<button class="btn btn-blue font-bold mr-2" form="photo-form" slot="footer">Add</button>
 		</modal>
+
+		{{-- <comments-modal v-if="photo"></comments-modal> --}}
+
+		<comments v-if="photo"></comments>
 		
 		<main class="container mx-auto p-6">
 			<transition name="router-view" mode="out-in">
