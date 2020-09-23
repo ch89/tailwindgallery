@@ -26,9 +26,10 @@
 	import PhotoLiked from "./notifications/PhotoLiked"
 	import PhotoRated from "./notifications/PhotoRated"
 	import PhotoCommented from "./notifications/PhotoCommented"
+	import UserFollowed from "./notifications/UserFollowed"
 
 	export default {
-		components: { PhotoLiked, PhotoRated, PhotoCommented },
+		components: { PhotoLiked, PhotoRated, PhotoCommented, UserFollowed },
 		data() {
 			return {
 				notifications: [],

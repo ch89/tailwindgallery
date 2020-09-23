@@ -24,6 +24,8 @@
 				await axios.post(`/api/users/${user.id}/follow`)
 
 				user.followed = ! user.followed
+
+				this.$flash.success(`Your are now following ${user.name}`)
 			}
 		}
 	}

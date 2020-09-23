@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,19 +57,7 @@ class User extends Authenticatable implements JWTSubject
     public function subscriptions() {
         return $this->belongsToMany(Photo::class, "subscriptions");
     }
-
-    public function following() {
-        return $this->belongsToMany(static::class, "follows", "follower_id", "followed_id");
-    }
-
-    public function followers() {
-        return $this->belongsToMany(static::class, "follows", "followed_id", "follower_id");
-    }
-
-    public function getFollowedAttribute() {
-        return $this->followers()->where("follower_id", auth()->id())->exists();
-    }
-
+    
     public function getJWTIdentifier()
     {
         return $this->getKey();
